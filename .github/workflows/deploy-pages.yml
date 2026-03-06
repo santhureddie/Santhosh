@@ -2,7 +2,10 @@ name: Deploy portfolio to GitHub Pages
 
 on:
   push:
-    branches: ["main", "master", "work"]
+    branches:
+      - main
+      - master
+      - work
   workflow_dispatch:
 
 permissions:
@@ -25,13 +28,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Prepare static site artifact
+        run: |
+          set -eux
+          rm -rf dist
+          mkdir -p dist
+          cp index.html styles.css main.js portfolio-data.js dist/
+          touch dist/.nojekyll
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
-      - name: Upload static files
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: dist
 
       - name: Deploy to GitHub Pages
         id: deployment
