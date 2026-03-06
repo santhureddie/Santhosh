@@ -25,6 +25,8 @@ export class Application {
   private sectionDescription = document.getElementById('section-description')!;
   private sectionItems = document.getElementById('section-items')!;
   private startOverlay = document.getElementById('start-screen')!;
+  private guideList = document.getElementById('guide-list')!;
+  private focusToast = document.getElementById('focus-toast')!;
 
   private currentSection = -1;
   private lap = 0;
@@ -32,6 +34,7 @@ export class Application {
   private lapStart = performance.now();
   private previousAngle = 0;
   private collectibles = new Set<number>();
+  private visitedSections = new Set<number>();
 
   private isMuted = false;
   private engine = new Howl({ src: ['https://cdn.pixabay.com/download/audio/2023/03/18/audio_5f6f7d6f0a.mp3?filename=car-engine-loop-143734.mp3'], loop: true, volume: 0.25, html5: true });
@@ -43,6 +46,7 @@ export class Application {
     this.setupStart();
     this.setupAudioToggle();
     this.setupCollisionSound();
+    this.updateGuide(sections.map(() => Infinity));
     window.addEventListener('resize', () => { this.renderer.resize(); this.camera.resize(); });
   }
 
@@ -55,8 +59,10 @@ export class Application {
   private setupStart() {
     document.getElementById('start-engine')?.addEventListener('click', () => {
       this.startOverlay.classList.add('hidden');
+      this.focusToast.classList.remove('hidden');
       this.engine.play();
       this.ambience.play();
+      setTimeout(() => this.focusToast.classList.add('hidden'), 3500);
       this.animate();
     });
   }
@@ -90,13 +96,31 @@ export class Application {
     this.sectionDescription.textContent = section.description;
     this.sectionItems.innerHTML = section.items.map((item) => `<li>${item}</li>`).join('');
     this.world.buildings.highlight(index);
+
+    if (!this.visitedSections.has(index)) {
+      this.panel.classList.remove('hidden');
+      this.visitedSections.add(index);
+      this.focusToast.textContent = `Now in ${section.shortLabel}. Press Enter to close/open details.`;
+      this.focusToast.classList.remove('hidden');
+      setTimeout(() => this.focusToast.classList.add('hidden'), 2200);
+    }
+  }
+
+  private updateGuide(sectionDistances: number[]) {
+    this.guideList.innerHTML = sections.map((section, i) => {
+      const distance = Number.isFinite(sectionDistances[i]) ? `${Math.round(sectionDistances[i])}m` : '--';
+      const seen = this.visitedSections.has(i);
+      return `<li class="guide-item"><strong>${section.shortLabel}</strong><span>${seen ? '<span class="visited">Visited ✓</span>' : `Distance ${distance}`}</span></li>`;
+    }).join('');
   }
 
   private updateGameplay() {
     const carPos = this.world.car.mesh.position;
     const sectionDistances = sections.map((s) => Math.hypot(carPos.x - s.position[0], carPos.z - s.position[1]));
     const nearest = sectionDistances.indexOf(Math.min(...sectionDistances));
-    if (sectionDistances[nearest] < 6) this.renderSection(nearest);
+    if (sectionDistances[nearest] < 6.5) this.renderSection(nearest);
+
+    this.updateGuide(sectionDistances);
 
     if (this.controls.consumeInteract()) this.panel.classList.toggle('hidden');
     if (this.controls.consumeCamera()) this.camera.cycleMode();

@@ -5,15 +5,16 @@ A modern Three.js + TypeScript portfolio where visitors drive an F1 car through 
 ## Features
 
 - Loading screen with progress
-- Start screen with engine launch flow
+- Start screen with engine launch flow + guided onboarding tips
 - Playable F1-style driving (accelerate, brake, steering, boost, drift)
 - 3 camera modes (`C`): third-person, cockpit, top-down
-- Track checkpoints mapped to portfolio content:
+- Track checkpoints mapped to portfolio content with a live guide panel:
   - Pit Lane Garage → About
   - Engineering Lab → Projects
   - Sponsor Boards → Skills
   - Race Control Tower → Contact
 - Lap counter, lap timer, token collectibles, minimap, racing HUD
+- Auto-open section details the first time you enter each zone
 - Engine/crowd/collision audio with mute toggle
 - Modular architecture (`core`, `world`, `physics`, `controls`, `ui`, `sections`)
 
