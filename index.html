@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Santhosh | F1 Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <canvas id="scene"></canvas>
+
+    <header class="hud hud--top">
+      <div class="brand">
+        <span class="brand__flag">🏁</span>
+        <div>
+          <h1>Santhosh Reddy</h1>
+          <p>Full-Stack Developer • Formula 1 Inspired Portfolio</p>
+        </div>
+      </div>
+      <div class="controls">
+        <p><strong>Drive:</strong> ← → or A D</p>
+        <p><strong>Brake/Boost:</strong> ↓ ↑ or S W</p>
+      </div>
+    </header>
+
+    <aside class="hud hud--side" id="infoPanel">
+      <div class="panel__title-wrap">
+        <h2 id="panelTitle">Welcome to my pit lane</h2>
+        <span class="panel__lap" id="lapMeter">Lap 0</span>
+      </div>
+      <p id="panelDescription">
+        Cruise around the circuit to discover my work experience, skills, and projects.
+      </p>
+      <ul id="panelList"></ul>
+      <a id="panelLink" href="#" target="_blank" rel="noopener noreferrer">Visit project</a>
+    </aside>
+
+    <footer class="hud hud--bottom">
+      <p>
+        Built with Three.js • Replace the data in <code>portfolio-data.js</code> with your exact details.
+      </p>
+    </footer>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
