@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drive My Portfolio | Santhosh Jampana</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="scene"></canvas>
+
+      <div id="loading-screen" class="overlay">
+        <h1>Preparing the race...</h1>
+        <div class="progress"><span id="progress-fill"></span></div>
+      </div>
+
+      <div id="start-screen" class="overlay hidden">
+        <h1>Drive My Portfolio</h1>
+        <p>Explore my work by racing through interactive F1 zones.</p>
+        <button id="start-engine">Start Engine</button>
+      </div>
+
+      <div id="section-panel" class="panel hidden">
+        <h2 id="section-title"></h2>
+        <p id="section-description"></p>
+        <ul id="section-items"></ul>
+      </div>
+
+      <div id="hud">
+        <div class="hud-item">Speed: <strong id="speed">0</strong> km/h</div>
+        <div class="hud-item">Lap: <strong id="lap">0</strong></div>
+        <div class="hud-item">Lap Time: <strong id="lap-time">00:00.00</strong></div>
+        <div class="hud-item">Tokens: <strong id="tokens">0</strong>/5</div>
+      </div>
+
+      <canvas id="minimap" width="160" height="160"></canvas>
+
+      <div id="controls-hint">WASD/Arrows: Drive • Shift: Boost • Space: Drift • Enter: Interact • C: Camera</div>
+      <button id="mute-toggle">🔊</button>
+      <div id="joystick" class="joystick hidden"><div id="stick"></div></div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
