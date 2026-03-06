@@ -14,13 +14,26 @@ Open `http://localhost:4173`.
 
 This repo includes a GitHub Pages workflow at `.github/workflows/deploy-pages.yml`.
 
-### One-time setup
+### One-time setup (recommended)
 
 1. Push this repository to GitHub.
 2. Go to **Settings → Pages**.
 3. Under **Build and deployment**, set **Source** to **GitHub Actions**.
 4. Go to **Settings → Actions → General → Workflow permissions** and choose **Read and write permissions**.
 5. Push a commit to `main`, `master`, or `work` (or run the workflow manually from the **Actions** tab).
+
+### Optional auto-enable mode (for first-time Pages init)
+
+If your repo has never had Pages enabled, you can let the workflow initialize it automatically:
+
+1. Create a Personal Access Token with repo admin/pages write capability.
+2. Add it as repository secret: `PAGES_DEPLOY_TOKEN`.
+3. Re-run the workflow.
+
+The workflow will use:
+
+- `actions/configure-pages@v5` with `enablement: true` **only** when `PAGES_DEPLOY_TOKEN` exists.
+- default `GITHUB_TOKEN` path otherwise.
 
 ### Result
 
@@ -30,37 +43,24 @@ This repo includes a GitHub Pages workflow at `.github/workflows/deploy-pages.ym
 
 > For a root URL like `https://<your-username>.github.io/`, use a repo named `<your-username>.github.io`.
 
-### Fix for `Get Pages site failed. Not Found`
+### Why deployment failed before
 
-If deployment fails with:
+Error observed:
 
-- `Get Pages site failed`
-- `HttpError: Not Found`
+- `Get Pages site failed. Not Found`
 
-it usually means Pages was not initialized yet for the repository.
+Root cause:
 
-This workflow now sets:
+- `configure-pages` could not find an initialized Pages site in the repository.
+- `enablement: true` requires a non-default token (PAT/App token), so using it with plain `GITHUB_TOKEN` can still fail.
 
-- `actions/configure-pages@v5`
-- `with: enablement: true`
+What changed now:
 
-So the action can automatically enable Pages before deployment.
-
-If it still fails, verify:
-
-- You have admin/maintainer permission on the repo.
-- Repository Actions are allowed by org policy.
-- Pages is not disabled by enterprise/org restrictions.
-
-### Why deployments commonly fail (and what this workflow fixes)
-
-- Uploading the entire repository (including extra/unexpected files) can break Pages artifact validation.
-- This workflow publishes only a clean `dist/` bundle with required static files:
-  - `index.html`
-  - `styles.css`
-  - `main.js`
-  - `portfolio-data.js`
-  - `.nojekyll`
+- Added explicit file validation before packaging.
+- Kept artifact packaging to a clean `dist/` bundle.
+- Added conditional configure-pages logic:
+  - auto-enable path with PAT (`PAGES_DEPLOY_TOKEN`)
+  - safe default path with `GITHUB_TOKEN`
 
 ## What's included
 
