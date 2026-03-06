@@ -10,35 +10,25 @@ python3 -m http.server 4173
 
 Open `http://localhost:4173`.
 
+
 ## Publish with GitHub Actions (Live URL)
 
-This repo includes a GitHub Pages workflow at `.github/workflows/deploy-pages.yml`.
+This repo now includes a GitHub Pages workflow at `.github/workflows/deploy-pages.yml`.
 
 ### One-time setup
 
 1. Push this repository to GitHub.
 2. Go to **Settings → Pages**.
 3. Under **Build and deployment**, set **Source** to **GitHub Actions**.
-4. Go to **Settings → Actions → General → Workflow permissions** and choose **Read and write permissions**.
-5. Push a commit to `main`, `master`, or `work` (or run the workflow manually from the **Actions** tab).
+4. Commit/push to one of these branches: `main`, `master`, or `work`.
 
 ### Result
 
-- GitHub Actions runs **Deploy portfolio to GitHub Pages**.
-- After success, the live URL will be:
+- GitHub Actions will run **Deploy portfolio to GitHub Pages**.
+- After it finishes, your site will be live at:
   - `https://<your-username>.github.io/<repo-name>/`
 
-> For a root URL like `https://<your-username>.github.io/`, use a repo named `<your-username>.github.io`.
-
-### Why deployments commonly fail (and what this workflow fixes)
-
-- Uploading the entire repository (including extra/unexpected files) can break Pages artifact validation.
-- This workflow now publishes only a clean `dist/` bundle with required static files:
-  - `index.html`
-  - `styles.css`
-  - `main.js`
-  - `portfolio-data.js`
-  - `.nojekyll`
+> If you want your portfolio at `https://<your-username>.github.io/`, publish from a repo named `<your-username>.github.io`.
 
 ## What's included
 
@@ -55,3 +45,8 @@ This repo includes a GitHub Pages workflow at `.github/workflows/deploy-pages.ym
 ## Update content
 
 Edit `portfolio-data.js` to modify work experience, links, skills, and sections.
+
+## Merge conflict resolution status
+
+- Verified repository is conflict-free.
+- Verified no unresolved merge markers (`<<<<<<<`, `=======`, `>>>>>>>`) remain in tracked files.
