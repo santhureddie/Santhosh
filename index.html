@@ -17,9 +17,21 @@
 
       <div id="start-screen" class="overlay hidden">
         <h1>Drive My Portfolio</h1>
-        <p>Explore my work by racing through interactive F1 zones.</p>
+        <p>Explore my work by driving through an interactive world inspired by playful portfolio experiences.</p>
+        <div class="start-tips">
+          <span>🏁 Start at low speed and follow the glowing markers.</span>
+          <span>🧭 Visit all 4 zones to complete the tour.</span>
+          <span>⏎ Enter opens details • C changes camera.</span>
+        </div>
         <button id="start-engine">Start Engine</button>
       </div>
+
+      <div id="experience-guide" class="panel guide-panel">
+        <h3>Track Guide</h3>
+        <ul id="guide-list"></ul>
+      </div>
+
+      <div id="focus-toast" class="hidden">Drive toward a glowing marker to discover a section.</div>
 
       <div id="section-panel" class="panel hidden">
         <h2 id="section-title"></h2>
@@ -31,12 +43,12 @@
         <div class="hud-item">Speed: <strong id="speed">0</strong> km/h</div>
         <div class="hud-item">Lap: <strong id="lap">0</strong></div>
         <div class="hud-item">Lap Time: <strong id="lap-time">00:00.00</strong></div>
-        <div class="hud-item">Tokens: <strong id="tokens">0</strong>/5</div>
+        <div class="hud-item">Tokens: <strong id="tokens">0</strong>/4</div>
       </div>
 
       <canvas id="minimap" width="160" height="160"></canvas>
 
-      <div id="controls-hint">WASD/Arrows: Drive • Shift: Boost • Space: Drift • Enter: Interact • C: Camera</div>
+      <div id="controls-hint">WASD/Arrows: Drive • Shift: Boost • Space: Drift • Enter: Toggle section panel • C: Camera</div>
       <button id="mute-toggle">🔊</button>
       <div id="joystick" class="joystick hidden"><div id="stick"></div></div>
     </div>
