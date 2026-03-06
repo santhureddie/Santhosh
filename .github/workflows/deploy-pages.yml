@@ -23,38 +23,24 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    env:
-      PAGES_DEPLOY_TOKEN: ${{ secrets.PAGES_DEPLOY_TOKEN }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Validate required files
-        run: |
-          set -eux
-          test -f index.html
-          test -f styles.css
-          test -f main.js
-          test -f portfolio-data.js
-
-      - name: Prepare static site artifact
-        run: |
-          set -eux
-          rm -rf dist
-          mkdir -p dist
-          cp index.html styles.css main.js portfolio-data.js dist/
-          touch dist/.nojekyll
-
-      - name: Configure GitHub Pages (auto-enable with PAT)
-        if: ${{ env.PAGES_DEPLOY_TOKEN != '' }}
-        uses: actions/configure-pages@v5
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          token: ${{ env.PAGES_DEPLOY_TOKEN }}
-          enablement: true
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production bundle
+        run: npm run build
 
       - name: Configure GitHub Pages
-        if: ${{ env.PAGES_DEPLOY_TOKEN == '' }}
         uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
