@@ -10,6 +10,26 @@ python3 -m http.server 4173
 
 Open `http://localhost:4173`.
 
+
+## Publish with GitHub Actions (Live URL)
+
+This repo now includes a GitHub Pages workflow at `.github/workflows/deploy-pages.yml`.
+
+### One-time setup
+
+1. Push this repository to GitHub.
+2. Go to **Settings → Pages**.
+3. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+4. Commit/push to one of these branches: `main`, `master`, or `work`.
+
+### Result
+
+- GitHub Actions will run **Deploy portfolio to GitHub Pages**.
+- After it finishes, your site will be live at:
+  - `https://<your-username>.github.io/<repo-name>/`
+
+> If you want your portfolio at `https://<your-username>.github.io/`, publish from a repo named `<your-username>.github.io`.
+
 ## What's included
 
 - 3D F1-inspired race track experience built with Three.js
