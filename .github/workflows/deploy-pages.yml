@@ -1,0 +1,65 @@
+name: Deploy portfolio to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - work
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate required files
+        run: |
+          set -eux
+          test -f index.html
+          test -f styles.css
+          test -f main.js
+          test -f portfolio-data.js
+
+      - name: Prepare static site artifact
+        run: |
+          set -eux
+          rm -rf dist
+          mkdir -p dist
+          cp index.html styles.css main.js portfolio-data.js dist/
+          touch dist/.nojekyll
+
+      - name: Configure GitHub Pages (auto-enable with PAT)
+        if: ${{ secrets.PAGES_DEPLOY_TOKEN != '' }}
+        uses: actions/configure-pages@v5
+        with:
+          token: ${{ secrets.PAGES_DEPLOY_TOKEN }}
+          enablement: true
+
+      - name: Configure GitHub Pages
+        if: ${{ secrets.PAGES_DEPLOY_TOKEN == '' }}
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
