@@ -25,3 +25,8 @@ Open `http://localhost:4173`.
 ## Update content
 
 Edit `portfolio-data.js` to modify work experience, links, skills, and sections.
+
+## Merge conflict resolution status
+
+- Verified repository is conflict-free.
+- Verified no unresolved merge markers (`<<<<<<<`, `=======`, `>>>>>>>`) remain in tracked files.
